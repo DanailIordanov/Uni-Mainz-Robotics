@@ -2,8 +2,8 @@ import RPi.GPIO as GPIO
 import time
 
 class AlphaBot2(object):
-	
-	def __init__(self,ain1=13,ain2=12,ena=6,bin1=20,bin2=21,enb=26):
+	# Ain1,Ain2,enA -> links, B -> rechts
+	def __init__(self,ain1=12,ain2=13,ena=6,bin1=20,bin2=21,enb=26):
 		self.AIN1 = ain1
 		self.AIN2 = ain2
 		self.BIN1 = bin1
