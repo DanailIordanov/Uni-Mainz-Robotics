@@ -1,17 +1,25 @@
 import cv2
+import numpy as np
+from src import configuration as config
+
 
 def main():
-    print("Hello World!")
-    src = cv2.imread('./../res/testPic.jpg', cv2.IMREAD_UNCHANGED)
+    path = './../res/testPic.jpg'
 
-    img = cv2.resize(src, (src.shape[1] / 3, src.shape[0] / 3))
-    
+    src = cv2.imread(path)
+    img = cv2.resize(src, (int(src.shape[1] / 3), int(src.shape[0] / 3)))
+
     imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    
-    
-    
-    cv2.imshow("Image", img)
-    cv2.waitKey(0)
+
+    lower = np.array([config.HUE_MIN, config.SAT_MIN, config.VAL_MIN])
+    upper = np.array([config.HUE_MAX, config.SAT_MAX, config.VAL_MAX])
+
+    mask = cv2.inRange(imgHSV, lower, upper)
+
+    imgResult = cv2.bitwise_and(img, img, mask=mask)
+    print(imgResult)
+    #
+    # config.get_trackbars(img)
 
 
 if __name__=='__main__':
