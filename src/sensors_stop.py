@@ -11,8 +11,8 @@ DataOut = 23
 class InfraredSensor(object):
     def __init__(self, sensorsCount=5):
         self.sensorsCount = sensorsCount
-        self.calibratedMin = [0] * self.numSensors
-        self.calibratedMax = [1023] * self.numSensors
+        self.calibratedMin = [0] * self.sensorsCount
+        self.calibratedMax = [1023] * self.sensorsCount
         self.last_value = 0
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
