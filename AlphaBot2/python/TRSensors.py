@@ -190,4 +190,3 @@ if __name__ == '__main__':
 		print(TR.AnalogRead())
 		time.sleep(0.2)
 
-			 
