@@ -1,6 +1,7 @@
 # IRLineSensor1.py
 
 import RPi.GPIO as GPIO
+import robot.AlphaBot2
 import time
 
 CS = 5
@@ -82,7 +83,17 @@ class InfraredSensor(object):
 
 
 if __name__ == "__main__":
+    robot = robot.AlphaBot2()
     sensor = InfraredSensor()
+    time.sleep(5)
+    robot.forward()
     while True:
         sensorData = sensor.AnalogRead()
-        print(sensorData)
+	averageValue = sum(sensorData) / len(sensorData)
+        if averageValue < 200:
+            robot.stop()
+            robot.left()
+            time.sleep(2)
+            robot.stop()
+            break
+
