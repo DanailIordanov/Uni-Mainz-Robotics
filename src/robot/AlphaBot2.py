@@ -11,8 +11,8 @@ class AlphaBot2(object):
 		self.BIN2 = bin2
 		self.ENA = ena
 		self.ENB = enb
-		self.PA  = 50
-		self.PB  = 50
+		self.PA  = 46
+		self.PB  = 49
 
 		GPIO.setmode(GPIO.BCM)
 		GPIO.setwarnings(False)
@@ -36,7 +36,6 @@ class AlphaBot2(object):
 		GPIO.output(self.BIN1,GPIO.LOW)
 		GPIO.output(self.BIN2,GPIO.HIGH)
 
-
 	def stop(self):
 		self.PWMA.ChangeDutyCycle(0)
 		self.PWMB.ChangeDutyCycle(0)
@@ -53,32 +52,43 @@ class AlphaBot2(object):
 		GPIO.output(self.BIN1,GPIO.HIGH)
 		GPIO.output(self.BIN2,GPIO.LOW)
 
-		
 	def left(self):
-		self.PWMA.ChangeDutyCycle(30)
-		self.PWMB.ChangeDutyCycle(30)
+		self.PWMA.ChangeDutyCycle(self.PA)
+		self.PWMB.ChangeDutyCycle(self.PB)
 		GPIO.output(self.AIN1,GPIO.HIGH)
 		GPIO.output(self.AIN2,GPIO.LOW)
 		GPIO.output(self.BIN1,GPIO.LOW)
 		GPIO.output(self.BIN2,GPIO.HIGH)
 
+	def rotate(self, angle, direction):
+		duration = angle * 1.333 / 360
+		if direction == "left":
+			self.left()
+		elif direction == "right":
+			self.right()
+		else:
+			self.stop()
+		time.sleep(duration)
+		self.forward()
+		time.sleep(duration)
+		
 
 	def right(self):
-		self.PWMA.ChangeDutyCycle(30)
-		self.PWMB.ChangeDutyCycle(30)
+		self.PWMA.ChangeDutyCycle(self.PA)
+		self.PWMB.ChangeDutyCycle(self.PB)
 		GPIO.output(self.AIN1,GPIO.LOW)
 		GPIO.output(self.AIN2,GPIO.HIGH)
 		GPIO.output(self.BIN1,GPIO.HIGH)
 		GPIO.output(self.BIN2,GPIO.LOW)
-		
+
 	def setPWMA(self,value):
 		self.PA = value
 		self.PWMA.ChangeDutyCycle(self.PA)
 
 	def setPWMB(self,value):
 		self.PB = value
-		self.PWMB.ChangeDutyCycle(self.PB)	
-		
+		self.PWMB.ChangeDutyCycle(self.PB)
+
 	def setMotor(self, left, right):
 		if((right >= 0) and (right <= 100)):
 			GPIO.output(self.AIN1,GPIO.HIGH)
